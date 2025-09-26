@@ -1,6 +1,6 @@
 <img src="frontend/public/logo.png" alt="Project logo" height="96" align="left"/>
 
-Decentralized social platform for gamers — sovereignty, provenance, and AI-powered engagement.
+Blockchain-based decentralized social platform for gamers that includes AI-generated images for games and minting NFTs for active users.
 
 <!-- Badges -->
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)]()
