@@ -1,3 +1,5 @@
+// Auto-participates by voting for NFT minting using multiple accounts
+
 require('dotenv').config();
 const { ethers } = require('ethers');
 const { getProvider } = require('../src/utils/web3');
@@ -19,7 +21,7 @@ async function main() {
     const contractAddress = process.env.GAMING_PLATFORM_ADDRESS;
     if (!contractAddress) throw new Error('GAMING_PLATFORM_ADDRESS not set in env');
 
-    const gameId = process.argv[2] || '2310';
+    const gameId = process.argv[2] || '10';
     console.log(`Using gameId = ${gameId}`);
 
     const readOnlyContract = new ethers.Contract(contractAddress, GAMING_PLATFORM_ABI, provider);
@@ -37,7 +39,7 @@ async function main() {
 
     // Collect private keys from env
     const keys = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 9; i++) {
         const key = process.env[`USER_PRIVATE_KEY_${i}`];
         if (key && key.length > 0) keys.push({ key, id: i });
     }

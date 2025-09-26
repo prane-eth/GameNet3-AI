@@ -1,3 +1,7 @@
+# Custom files
+user-data-dir/
+metamask-extension/
+
 # Logs
 logs
 *.log

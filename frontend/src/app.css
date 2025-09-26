@@ -1382,6 +1382,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   font-weight: 500;
 }
 
+.dark .mint-ready-notice {
+  background: #333;
+}
+
 .nft-error {
   text-align: center;
   padding: 2rem;

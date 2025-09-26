@@ -1,0 +1,99 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start local-ipfs",
+      "type": "shell",
+      "command": "./start.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/local-ipfs"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Start blockchain",
+      "type": "shell",
+      "command": "./start.sh",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}/blockchain"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Start frontend",
+      "type": "shell",
+      "command": "./start.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    // {
+    //   "label": "Start backend",
+    //   "type": "shell",
+    //   "command": "./start.sh",
+    //   "options": {
+    //     "cwd": "${workspaceFolder}/backend"
+    //   },
+    //   "problemMatcher": [],
+    //   "isBackground": true,
+    //   "presentation": {
+    //     "panel": "dedicated",
+    //     "clear": false
+    //   }
+    // },
+    {
+      "label": "Run participate-in-NFT",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-ic", "sleep 5 && node ./scripts/participate-in-NFT.js"],
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "isBackground": false,
+      "presentation": {
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Start all services",
+      "dependsOn": [
+        "Start blockchain",
+        "Start local-ipfs",
+        "Start frontend",
+        "Start backend",
+        "Run participate-in-NFT"
+      ],
+      "type": "shell",
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop all services",
+      "type": "shell",
+      "command": "${workspaceFolder}/stop.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "panel": "dedicated",
+        "clear": false
+      }
+    }
+  ]
+}

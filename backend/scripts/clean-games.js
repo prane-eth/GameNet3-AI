@@ -10,10 +10,11 @@ async function cleanGames() {
   const initialCount = db.getGamesCount();
   console.log(`Initial games count: ${initialCount}`);
 
-  // Get games without background_image or rating
+  // Get games without background_image or rating, or with pre-order in name
   const gamesToDelete = db._raw.prepare(`
     SELECT id, name FROM games
     WHERE background_image IS NULL OR background_image = '' OR rating IS NULL
+    OR LOWER(name) LIKE '%pre-order%' OR LOWER(name) LIKE '%preorder%' OR LOWER(name) LIKE '%pre order%'
   `).all();
 
   console.log(`Found ${gamesToDelete.length} games to delete:`);

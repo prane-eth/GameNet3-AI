@@ -9,6 +9,10 @@ Blockchain-based decentralized social platform for gamers that includes AI-gener
 [![OpenAI](https://img.shields.io/badge/OpenAI-000000?style=for-the-badge&logo=openai&logoColor=white)]()
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=github&logoColor=white)](./LICENSE.md)
 
+## Demo
+
+[![Demo Video](assets/demo.gif)](assets/demo.mp4)
+
 ## About
 
 GameNet3-AI is a full-stack decentralized social platform built for gaming communities. It combines blockchain smart contracts, web3 integrations, a Node.js backend, and a React frontend with AI-powered features to provide secure, equitable, and accessible social experiences. The platform prioritizes user sovereignty, content provenance, and transparent moderation tools.
@@ -96,3 +100,7 @@ Open `http://localhost:3000` (or the port shown by Vite) and connect a Web3 wall
 ## Contributing
 
 We welcome contributions. Please open issues.
+
+## Using VS Code
+
+If you use VS Code's Run/Start Debugging option, a preconfigured launch will start all the services in multiple terminals. Make sure packages are installed and .env is setup.

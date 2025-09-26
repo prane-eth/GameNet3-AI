@@ -36,11 +36,6 @@ module.exports = async function (fastify, opts) {
       // Step: Get the next mint ID for this game
       const mintId = await getNextMint(gameId);
       console.log(`Next mint ID for game ${gameId}: ${mintId}`);
-      // Check DB for existing mint with same mintId
-      const existingMints = await fastify.db.getMintsByGame(gameId);
-      if (existingMints?.some(m => String(m.mintId) === String(mintId))) {
-        return reply.status(400).send({ error: 'NFT already minted for this mint ID' });
-      }
 
       // Step: Count votes for this mint
       const isReadyToMint = await readyToMint(gameId, mintId);

@@ -544,7 +544,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
                     className="btn-primary"
                     onClick={handleMintRequest}
                     disabled={isMinting}
-                    title={isMinting ? 'Minting in progress' : 'Request backend to mint NFTs for top users'}
+                    title={isMinting ? 'Minting in progress' : 'Request to mint NFTs for top users'}
                   >
                     {isMinting ? 'Minting...' : 'Mint NFTs for Top Users'}
                   </button>

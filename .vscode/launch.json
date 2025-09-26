@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run services",
+      "type": "python",
+      "request": "launch",
+      "preLaunchTask": "Start all services",
+      "postDebugTask": "Stop all services",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ],
+  "compounds": []
+}

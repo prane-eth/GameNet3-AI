@@ -2,6 +2,9 @@
 **/cache/
 **/artifacts/
 **/node_modules/
-.vscode/
+# .vscode/
 TODO.md
 Auto-create_demo_video.pdf
+stop.sh
+palette.png
+demo.webm
