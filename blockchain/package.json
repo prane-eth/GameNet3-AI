@@ -1,0 +1,22 @@
+{
+  "name": "gaming-social-platform-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for decentralized gaming social platform",
+  "scripts": {
+    "test": "hardhat test --bail",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "node:deploy": "hardhat run scripts/start-node-with-deploy.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.5",
+    "@openzeppelin/contracts": "^4.8.2",
+    "@openzeppelin/contracts-upgradeable": "^4.8.2",
+    "@openzeppelin/hardhat-upgrades": "^1.22.1",
+    "chai": "^4.3.7",
+    "dotenv": "^16.0.3",
+    "hardhat": "^2.13.0"
+  }
+}

@@ -1,0 +1,2260 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.app {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  background-color: #f5f5f5;
+  font-weight: 400;
+  scroll-behavior: smooth;
+}
+
+/* Header */
+.header {
+  height: 6rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.dark-mode-toggle {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 3rem;
+}
+
+.dark-mode-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode-toggle:hover::before {
+  opacity: 1;
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+.logo a {
+  text-decoration: none;
+}
+
+.site-logo {
+  max-height: 6rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav {
+  height: 100%;
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+.nav a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: rgb(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1.6rem;
+  padding: 0 3rem;
+  border-radius: 5px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background-color 0.3s;
+  letter-spacing: -0.01em;
+}
+
+.nav a:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.nav a.active {
+  font-weight: 700;
+  border-bottom: 0.5rem solid orange;
+  color: rgb(255, 255, 255, 1.0);
+}
+
+.wallet-connect {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* Pill-shaped wallet button with gradient border
+   Use layered backgrounds so the gradient border follows the rounded corners.
+   Technique: outer background is the gradient, padded with a transparent border and
+   inner background is white; `background-clip` ensures the inner white box is clipped
+   and the outer gradient shows as a border. */
+.connect-wallet-btn {
+  --border-size: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  /* first layer: white inner; second layer: gradient border */
+  background-image: linear-gradient(white, white),
+                    linear-gradient(135deg, #f6851b 0%, #f7931a 25%, #8b5cf6 75%, #6366f1 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: var(--border-size) solid transparent; /* space for gradient border */
+  border-radius: 9999px; /* fully pill-shaped */
+  color: #333;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+/* Remove persistent focus ring on mouse click but keep keyboard accessibility
+   Use :focus-visible to show a clear focus ring for keyboard users while
+   hiding the default UA outline on pointer-based focus events. */
+button, a, input, textarea, select {
+  outline: none;
+}
+
+/* Visual focus ring for keyboard-only focus (accessible) */
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(99,102,241,0.35);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.connect-wallet-btn::before {
+  /* subtle shimmer highlight */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.5s ease;
+  pointer-events: none;
+  border-radius: 9999px; /* keep shimmer rounded */
+}
+
+.connect-wallet-btn:hover::before {
+  left: 120%;
+}
+
+.connect-wallet-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.connect-wallet-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.connect-wallet-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.metamask-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.wallet-address {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.wallet-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wallet-error {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 50%;
+  border: 1px solid #ff6b6b;
+  max-width: 250px;
+  text-align: right;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Home Page */
+.home {
+  text-align: center;
+  width: 100%;
+}
+
+.hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 10px;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  /* border: .2rem solid orange;
+  transition: all 0s; */
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.connected-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.connected-status span {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #667eea;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Games Page */
+.games {
+  width: 100%;
+}
+
+.games-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.games-header h1 {
+  color: #333;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 2.5rem;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-form input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  flex: 1;
+  min-width: 300px;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+}
+
+.search-form button {
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.game-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+}
+
+.game-image {
+  cursor: pointer;
+}
+
+.game-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.game-info {
+  padding: 1rem;
+}
+
+.game-info h3 {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.game-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.game-year {
+  background: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.game-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.genre-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+/* Genre color schemes */
+.genre-action {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.genre-adventure {
+  background: #6f42c1;
+  color: white;
+  border-color: #6f42c1;
+}
+
+.genre-rpg {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.genre-strategy {
+  background: #fd7e14;
+  color: white;
+  border-color: #fd7e14;
+}
+
+.genre-shooter {
+  background: #e83e8c;
+  color: white;
+  border-color: #e83e8c;
+}
+
+.genre-puzzle {
+  background: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.genre-racing {
+  background: #20c997;
+  color: white;
+  border-color: #20c997;
+}
+
+.genre-sports {
+  background: #ffc107;
+  color: black;
+  border-color: #ffc107;
+}
+
+.genre-simulation {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.genre-indie {
+  background: #6610f2;
+  color: white;
+  border-color: #6610f2;
+}
+
+.genre-arcade {
+  background: #fd7e14;
+  color: white;
+  border-color: #fd7e14;
+}
+
+.genre-platformer {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.genre-massively-multiplayer {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.genre-fighting {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.genre-family {
+  background: #e83e8c;
+  color: white;
+  border-color: #e83e8c;
+}
+
+.genre-board-games {
+  background: #6f42c1;
+  color: white;
+  border-color: #6f42c1;
+}
+
+.genre-educational {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.genre-card {
+  background: #ffc107;
+  color: black;
+  border-color: #ffc107;
+}
+
+.ratings-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.rating-icon {
+  font-size: 1rem;
+}
+
+.rating-value {
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.rating-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.review-count {
+  color: #666;
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}
+
+.steam-rating {
+  color: #ff6b35;
+}
+
+.platform-rating {
+  color: #4caf50;
+}
+
+.game-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #5a6fd8;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.rate-btn {
+  background: #ff9800;
+  color: white;
+}
+
+.rate-btn:hover {
+  background: #e68900;
+}
+
+.release-date, .genres {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Profile Page */
+.profile {
+  width: 100%;
+}
+
+.profile-content {
+  width: 100%;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wallet-info {
+  background: #f0f0f0;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+.nfts-section, .stats-section {
+  margin-bottom: 3rem;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.nfts-section h2, .stats-section h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 2rem;
+}
+
+.nfts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.nft-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nft-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.nft-info {
+  padding: 1rem;
+}
+
+.nft-info p {
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.no-nfts {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 10px;
+  color: #666;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Chatbot */
+.chatbot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.3s;
+  z-index: 1000;
+}
+
+.chatbot-button:hover {
+  transform: scale(1.1);
+}
+
+.chatbot-button.open {
+  transform: rotate(180deg);
+}
+
+.chatbot-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 500px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.chatbot-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-chat-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: white;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.new-chat-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chatbot-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.chatbot-header span {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.welcome-message {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.welcome-message ul {
+  text-align: left;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.message {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.assistant {
+  align-items: flex-start;
+}
+
+.message-content {
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  word-wrap: break-word;
+}
+
+.message.user .message-content {
+  background: #667eea;
+  color: white;
+}
+
+.message.assistant .message-content {
+  background: white;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.message-time {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 0.5rem 0;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #667eea;
+  animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background: #f0f0f0;
+}
+
+.modal-content form {
+  padding: 1.5rem;
+}
+
+.rating-input, .review-input {
+  margin-bottom: 1.5rem;
+  background: white;
+}
+
+.rating-input label, .review-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.5rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.star {
+  font-size: 2rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star.active, .star:hover {
+  color: #ff9800;
+}
+
+.star:hover ~ .star {
+  color: #ddd;
+}
+
+.review-input textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+  background: white;
+  color: #333;
+}
+
+.review-input textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.chatbot-input {
+  display: flex;
+  padding: 1rem;
+  gap: 0.5rem;
+  border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chatbot-input input:focus {
+  border-color: #667eea;
+}
+
+.chatbot-input button {
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chatbot-input button:hover:not(:disabled) {
+  background: #5a67d8;
+}
+
+.chatbot-input button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  /* Notice banner used for success/info messages */
+  .notice-banner {
+    max-width: 1200px;
+    margin: 0.5rem auto 1rem auto;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .notice-banner.info { background: #e6f0ff; color: #1f5bff; }
+  .notice-banner.success { background: #e6ffef; color: #067a4b; }
+  .notice-banner.error { background: #fff1f0; color: #a10b0b; }
+
+  .modal-error {
+    background: #fff6f6;
+    color: #a10b0b;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    border: 1px solid #f5c2c2;
+  }
+
+  .games-header {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chatbot-window {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 150px);
+    bottom: 90px;
+    right: 20px;
+  }
+}
+
+/* Game Details Page */
+.game-details {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.game-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.game-image {
+  flex: 0 0 300px;
+}
+
+.game-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.game-info {
+  flex: 1;
+}
+
+.game-title {
+  font-size: 0.9rem;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+.game-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.game-year {
+  background: #f0f0f0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.game-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.game-description {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.description-content {
+  margin-bottom: 0.5rem;
+}
+
+.description-toggle {
+  background: linear-gradient(to bottom, transparent 0%,
+                            rgba(102, 126, 234, 0.1) 50%, rgba(102, 126, 234, 0.2) 100%);
+  border: none;
+  border-radius: 6px;
+  color: #667eea;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.description-toggle:hover {
+  background: linear-gradient(to bottom, transparent 0%, rgba(102, 126, 234, 0.15) 50%, rgba(102, 126, 234, 0.3) 100%);
+  color: #5a6fd8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.nft-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.nft-section h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.nft-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.nft-stat {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.nft-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.participated-badge {
+  background: #4caf50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mint-ready-notice {
+  background: #fff3cd;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.nft-error {
+  text-align: center;
+  padding: 2rem;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  color: #c53030;
+}
+
+.nft-error p {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.nft-error ul {
+  text-align: left;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.nft-error li {
+  margin-bottom: 0.5rem;
+}
+
+.reviews-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.reviews-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #fafafa;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.review-text {
+  line-height: 1.6;
+  color: #555;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-style: italic;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #dc3545;
+  font-weight: 500;
+}
+
+/* Responsive Design for Game Details */
+@media (max-width: 768px) {
+  .game-details {
+    padding: 1rem;
+  }
+
+  .game-header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .game-image {
+    flex: none;
+  }
+
+  .game-image img {
+    height: 250px;
+  }
+
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .nft-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .nft-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .reviews-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+}
+
+/* Minted images grid and lightbox */
+.minted-images.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.minted-image-card {
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+.minted-image-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.minted-image-card,
+.minted-image-card img {
+  /* Indicate these images are clickable */
+  cursor: pointer;
+}
+.minted-caption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+.lightbox-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 18px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.lightbox-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  /* Transparent background so the page behind is visible; use a larger hit area */
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 26px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* subtle contrast so the cross is visible on light/dark images */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+.lightbox-close:hover {
+  transform: scale(1.05);
+}
+.lightbox-close:focus {
+  outline: 2px solid rgba(255,255,255,0.25);
+  outline-offset: 3px;
+}
+.lightbox-caption {
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 90vw;
+}
+
+@media (max-width: 480px) {
+  .minted-images.grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .minted-image-card img {
+    height: 120px;
+  }
+}
+
+/* Game Details Page Styles */
+.game-details {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.game-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.game-image {
+  flex: 0 0 400px;
+}
+
+.game-image img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.game-info {
+  flex: 1;
+  padding: 1rem;
+}
+
+.game-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.game-description {
+  margin-top: 1.5rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.nft-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nft-section h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.nft-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.nft-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.nft-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.participated-badge {
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.mint-ready-notice {
+  background: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.nft-loading, .nft-error {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+.reviews-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.reviews-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #f8f9fa;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-rating {
+  font-size: 1.2rem;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  color: #ddd;
+  font-size: 1.2rem;
+}
+
+.star.active {
+  color: #ffc107;
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.review-text {
+  line-height: 1.6;
+  color: #555;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.rating-input, .review-input {
+  margin-bottom: 1.5rem;
+  background: white;
+}
+
+.rating-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rating-input label {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ddd;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+  color: #ffc107;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: inherit;
+  resize: vertical;
+  background: white;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Dark Mode Styles */
+.dark .app {
+  color: #e0e0e0;
+  background-color: #121212;
+}
+
+.dark .header {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+}
+
+.dark .logo h1,
+.dark .nav a {
+  color: #e0e0e0;
+}
+
+.dark .nav a.active {
+  border-color: #e0e0e0;
+}
+
+.dark .hero {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+}
+
+.dark .btn-secondary {
+  color: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
+.dark .feature {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .feature h3 {
+  color: #bbb;
+}
+
+.dark .connect-wallet-btn {
+  background-image: linear-gradient(white, white),
+                    linear-gradient(135deg, #f6851b 0%, #f7931a 25%, #8b5cf6 75%, #6366f1 100%);
+  color: #333;
+}
+
+.dark .wallet-error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border-color: #ff6b6b;
+}
+
+.dark .games-header h1 {
+  color: #e0e0e0;
+}
+
+.dark .search-form input {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+.dark .search-form button {
+  background: #667eea;
+}
+
+.dark .game-card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .game-info h3 {
+  color: #e0e0e0;
+}
+
+.dark .game-meta {
+  color: #bbb;
+}
+
+.dark .game-year {
+  background: #333;
+  color: #e0e0e0;
+}
+
+.dark .profile-header {
+  color: #e0e0e0;
+}
+
+.dark .wallet-info {
+  background: #333;
+  color: #e0e0e0;
+}
+
+.dark .nfts-section h2, .dark .stats-section h2 {
+  color: #e0e0e0;
+}
+
+.dark .nft-card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .nft-info p {
+  color: #bbb;
+}
+
+.dark .game-header {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .game-title {
+  color: #e0e0e0;
+}
+
+.dark .game-description {
+  color: #bbb;
+}
+
+.dark .nft-section {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .nft-section h2 {
+  color: #e0e0e0;
+}
+
+.dark .nft-stat {
+  background: #2a2a2a;
+}
+
+.dark .stat-label {
+  color: #bbb;
+}
+
+.dark .stat-value {
+  color: #e0e0e0;
+}
+
+.dark .chatbot-window {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .chatbot-messages {
+  background: #121212;
+}
+
+.dark .welcome-message {
+  background: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.dark .message.assistant .message-content {
+  background: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.dark .message-time {
+  color: #bbb;
+}
+
+.dark .modal-content {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .modal-header {
+  border-color: #555;
+}
+
+.dark .modal-header h2 {
+  color: #e0e0e0;
+}
+
+.dark .close-btn {
+  color: #bbb;
+}
+
+.dark .close-btn:hover {
+  background: #333;
+}
+
+.dark .rating-input label, .dark .review-input label {
+  color: #e0e0e0;
+}
+
+.dark .rating-input {
+  background: None;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dark .review-input {
+  background: None;
+}
+
+.dark .star-rating {
+  background: None;
+}
+
+.dark .review-input textarea {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+.dark .chatbot-input input {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+/* Dark mode button styles */
+.dark .btn-primary {
+  background: #388E3C;
+  color: white;
+}
+
+.dark .btn-primary:hover {
+  background: #2E7D32;
+}
+
+.dark .btn-secondary {
+  background: #424242;
+  color: #e0e0e0;
+  border-color: #666;
+}
+
+.dark .btn-secondary:hover {
+  background: #555;
+}
+
+.dark .rate-btn {
+  background: #F57C00;
+  color: white;
+}
+
+.dark .rate-btn:hover {
+  background: #E65100;
+}
+
+.no-games {
+  text-align: right;
+  margin-top: 1rem;
+  color: #666;
+  font-style: italic;
+  font-size: 1.3rem;
+}
+
+/* Dark mode reviews styles */
+.dark .reviews-section {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark .reviews-header h2 {
+  color: #e0e0e0;
+}
+
+.dark .review-card {
+  background: #2a2a2a;
+  border-color: #555;
+}
+
+.dark .review-date {
+  color: #bbb;
+}
+
+.dark .review-text {
+  color: #e0e0e0;
+}
+
+.dark .no-reviews {
+  color: #bbb;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.reviews-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #fafafa;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-rating {
+  font-size: 1.2rem;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  color: #ddd;
+  font-size: 1.2rem;
+}
+
+.star.active {
+  color: #ffc107;
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.review-text {
+  line-height: 1.6;
+  color: #555;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+

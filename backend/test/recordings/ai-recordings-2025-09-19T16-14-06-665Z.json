@@ -1,0 +1,31 @@
+
+nock('https://api.openai.com:443', {"encodedQueryParams":true})
+  .post('/v1/chat/completions', {"model":"gpt-5-mini","messages":[{"role":"user","content":"\n      Generate 2 creative and detailed image prompts for a gaming poster/artwork\n      based on this game: \"Test RPG - An amazing RPG game - Genres: RPG, Fantasy\".\n      Each prompt should be artistic, visually striking, and suitable for AI image generation.\n      Focus on gaming aesthetics, atmosphere, and key visual elements for NFTs.\n      Make those very concise.\n      Image styles for 2 images: realistic, cartoon.\n      Return only the prompts as a JSON array of strings, no additional text.\n    "}],"max_completion_tokens":1000})
+  .reply(200, ["1b4707402c0a6c9735c969395af4d30f43e9e2525131e950dae9e77daabbe52786322531c2099fc48c23fd4bb9d1847bcdaaf24d22eae236bce8c23f7adf2e5a19a506c5029caf44dc5241a7cbff673f7796e7a7afb5e5b27bdf9b681753c4de070f4d43a111b2271a1e323160629bcf89fd2a9692ab9202ebc06172f1577f84cbb3c0cd0d23f729e9e5bb86b1a9ad6f6d4b15a555bd5fbfc9cf939febe79ebbdb138961d49e593f82189060c0dd47a89686592338d162106171aece48cf61f64da64d7509120389b6ae2cc035d781400e20518f40c7a8a6118908637a0379e0498cf47458b535de782cfe6980ca96ef3242610fce907950c7e00c07d682d6a3fce7d817b2a952379289b0ff45830a3432051e606b50a2c88d0aa07535d855ffaf750082218fe4c2f90c59f874020c28cbcf9b8b4d4b51d2ec987f374256161e75e2472095ed550790ad191a60f38f79a875c8a2abf416f7116c71b876670e2c242fe4bc4618e722df630761f7cd607c72ecb3d40f32071c053a7b6c1e09c384601cbebb4d08a391414e5a5946bef97b98b7ae14905307beb91aea72c010a79e3a56a99a807d6fc2518596adf1ccb58e108277c5abf932e8ef66b902e7b712c1918b8af190a171dca152df623352772a138d76f32104ce95a350733206e26fe6de7bb9836bdb6e06670cc3fbc6c919ba6ab943bb4f322314589a63b140c679bbe4c3700478dc851f540040c25bfa86c61e796236c67b03535e6d4c175d0e27bd81d4be651d208493d6e730c222d614099472dfeb55f4aad7f74922637d775f1b77e78c92357b6a874392ec0c6653ce6792e40d4760371c63950a17270a45d0b4cd850be5505b6c08ce27b65472963d8cf0ec771cf1787662964a515d1a6f582bb96fe7933b688542149759a4c4e530ef616e7c70d56c810676122ab60e2c35b87d836f2130d694934164a6364f1c988bfbaa013ecd3c2ae32277ef0da52f54c8a62224b86e26d155d65c79a7faff188b1e06641005f869b50c43274bcbfcca8d89093ea777300163c2ee26538c35704cf1e2e2733b324dfb8c1d04e17093520af40c2b36fa214338c1c368852c154e27333b34a88fbc11fcfcc53261029fd592b01f1ea0e3ba2e91bfc4a3fe6e27b5bac5b4a26899d90b4fc61fa741956216562ca9dd5348ecefc164e4881632a82da099d9c55b118b95e2f9a701"], {
+  'access-control-expose-headers': 'X-Request-ID',
+  'alt-svc': 'h3=":443"; ma=86400',
+  'cf-cache-status': 'DYNAMIC',
+  'cf-ray': '981a5f649b05d988-MAA',
+  connection: 'keep-alive',
+  'content-encoding': 'br',
+  'content-type': 'application/json',
+  date: 'Fri, 19 Sep 2025 16:14:06 GMT',
+  'openai-organization': 'user-mktczbuqo14ok5zq3zvvus0l',
+  'openai-processing-ms': '15978',
+  'openai-project': 'proj_HqO8HnKp7rJsjrDN6n3Y0TPc',
+  'openai-version': '2020-10-01',
+  server: 'cloudflare',
+  'set-cookie': '_cfuvid=EbDGPk8_PylAqQ2VKGbCtra4wluDNlnwJW5h1Ouuvq8-1758298446637-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+  'transfer-encoding': 'chunked',
+  'x-content-type-options': 'nosniff',
+  'x-envoy-upstream-service-time': '16214',
+  'x-openai-proxy-wasm': 'v0.1',
+  'x-ratelimit-limit-requests': '500',
+  'x-ratelimit-limit-tokens': '500000',
+  'x-ratelimit-remaining-requests': '499',
+  'x-ratelimit-remaining-tokens': '499871',
+  'x-ratelimit-reset-requests': '120ms',
+  'x-ratelimit-reset-tokens': '15ms',
+  'x-request-id': 'req_99020d94934b43beb5a9d3e8dc4121a9'
+});
