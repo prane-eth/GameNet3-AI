@@ -26,18 +26,18 @@ module.exports = async function (fastify, opts) {
         return reply.status(404).send({ error: 'Game not found' });
       }
 
-      // Step: Get active users (limit to 3 for NFT minting)
+      // Get active users (limit to 3 for NFT minting)
       const activeUsers = fastify.db.getActiveUsers(TOP_USERS_LIMIT); // Get top active users
       console.log(`Found ${activeUsers.length} active users for NFT minting`);
       if (activeUsers.length === 0) {
         return reply.status(400).send({ error: 'No active users found for NFT minting' });
       }
 
-      // Step: Get the next mint ID for this game
+      // Get the next mint ID for this game
       const mintId = await getNextMint(gameId);
       console.log(`Next mint ID for game ${gameId}: ${mintId}`);
 
-      // Step: Count votes for this mint
+      // Count votes for this mint
       const isReadyToMint = await readyToMint(gameId, mintId);
       console.log(`readyToMint for mint ${mintId}: ${isReadyToMint}`);
       if (!isReadyToMint) {
@@ -47,7 +47,7 @@ module.exports = async function (fastify, opts) {
       isMinting[gameId] = true;
 
       const imageUrls = [];
-      // Step: Generate 3 prompts
+      // Generate 3 prompts
       // If enough images already exist, avoid generating new ones
       const max_filename = `./public/nfts/mint_${gameId}_${mintId}-${TOP_USERS_LIMIT}.png`;
       let prompts = [];
@@ -83,13 +83,13 @@ module.exports = async function (fastify, opts) {
         imageUrls.push(ipfsUrl);
       }
 
-      // Step: Prepare data for minting
+      // Prepare data for minting
       const topUsers = activeUsers.slice(0, TOP_USERS_LIMIT).map(user => user.address).filter(addr => addr);
       const descriptions = topUsers.map((_, index) => 
         `${game.name} - AI Generated Artwork #${index + 1} - Mint ID: ${mintId}`
       );
 
-      // Step: Mint NFTs for top users
+      // Mint NFTs for top users
       const mintResult = await mintNFTsForTopUsers(gameId, mintId, topUsers, imageUrls, descriptions);
       console.log(`Minted NFTs for ${topUsers.length} users: ${mintResult.txHash}`);
 
@@ -108,8 +108,6 @@ module.exports = async function (fastify, opts) {
         },
         success: true
       };
-      // Persist to database
-      await fastify.db.addMint(mintData);
 
       isMinting[gameId] = false;
       return mintData;
@@ -117,19 +115,6 @@ module.exports = async function (fastify, opts) {
       isMinting[gameId] = false;
       console.error('Error minting NFT:', error);
       return reply.status(500).send({ error: 'Failed to mint NFT' });
-    }
-  });
-
-  // Get minted NFTs for a game (list recent mints)
-  fastify.get('/minted/:gameId', async (req, reply) => {
-    const { gameId } = req.params;
-    try {
-      // Read from DB
-      const rows = await fastify.db.getMintsByGame(gameId);
-      return { gameId, mints: rows };
-    } catch (err) {
-      console.error('Error fetching minted data list:', err);
-      return reply.status(500).send({ error: 'Failed to fetch minted data' });
     }
   });
 };

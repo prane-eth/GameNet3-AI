@@ -75,9 +75,9 @@ const Profile: preact.FunctionComponent = () => {
           ) : (
             <div className="no-nfts">
               <p>No NFTs found. Start playing games to earn NFTs!</p>
-              {address && (
+              {address ? (
                 <p>Your wallet address: {address}</p>
-              )}
+              ) : null}
             </div>
           )}
         </section>

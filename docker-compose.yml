@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: ipfs_host
+    ports:
+      - "4001:4001"
+      - "4001:4001/udp"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:5001:5001"
+    volumes:
+      - ipfs_staging:/export
+      - ipfs_data:/data/ipfs
+    restart: unless-stopped
+
+  blockchain:
+    build: ./blockchain
+    container_name: blockchain
+    ports:
+      - "8545:8545"
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - backend_data:/app/data
+    depends_on:
+      - blockchain
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  ipfs_staging:
+  ipfs_data:
+  backend_data:

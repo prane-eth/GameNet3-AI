@@ -50,7 +50,6 @@ describe('Web3 NFT Minting', function() {
         id: `test-user-${i}`,
         address: wallet.address,
         nickname: `TestUser${i}`,
-        tokens: 100,
         activity: Math.floor(Math.random() * 100) + 1
       };
       db.createUser(user);

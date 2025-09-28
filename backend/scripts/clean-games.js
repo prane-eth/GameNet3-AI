@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// Removes games without background_image or rating from Steam, or with pre-order in name
 
 const dbModule = require('../src/db_sqlite');
 require('dotenv').config();

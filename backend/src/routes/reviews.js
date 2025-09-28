@@ -5,7 +5,7 @@ const { generateNick } = require('../utils/nickname');
 
 module.exports = async function (fastify, opts) {
 
-  // add review
+  // Add a review
   fastify.post('/reviews', async (req, reply) => {
     const { gameId, rating, text, signature, message } = req.body || {};
     if (!gameId || !rating || !signature || !message)
@@ -23,7 +23,7 @@ module.exports = async function (fastify, opts) {
       if (!user) {
         const isUnique = (nick) => !db.getUserByNickname(nick);
         const nickname = generateNick(isUnique);
-        user = { id: uniqid(), nickname, tokens: 0, activity: 0, address: userAddress };
+        user = { id: uniqid(), nickname, activity: 0, address: userAddress };
         db.createUser(user);
       }
 
@@ -89,18 +89,22 @@ module.exports = async function (fastify, opts) {
 
   fastify.get('/reviews/:gameId', async (req, reply) => {
     const gameId = req.params.gameId;
+    if (!gameId)
+      return reply.status(400).send({ error: 'gameId is required' });
+  
+    // Fetch reviews for the game
     const arr = fastify.db.getReviewsByGame(gameId) || [];
     return arr;
   });
 
-  // Debug endpoint: list users and activity (dev only)
-  fastify.get('/admin/users', async (req, reply) => {
-    try {
-      const rows = fastify.db._raw.prepare('SELECT id, address, nickname, activity FROM users ORDER BY activity DESC').all();
-      return rows;
-    } catch (err) {
-      console.error('Failed to list users for admin:', err);
-      return reply.status(500).send({ error: 'Failed to list users' });
-    }
-  });
+  // // Debug endpoint: list users and activity (dev only)
+  // fastify.get('/admin/users', async (req, reply) => {
+  //   try {
+  //     const rows = fastify.db._raw.prepare('SELECT id, address, nickname, activity FROM users ORDER BY activity DESC').all();
+  //     return rows;
+  //   } catch (err) {
+  //     console.error('Failed to list users for admin:', err);
+  //     return reply.status(500).send({ error: 'Failed to list users' });
+  //   }
+  // });
 };

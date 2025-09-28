@@ -193,10 +193,10 @@ const Games: preact.FunctionComponent = () => {
       <div className={`rating ${colorClass}`}>
         <span className="rating-icon">{icon}</span>
         <span className="rating-value">{displayRating}</span>
-        {label && <span className="rating-label">{label}</span>}
-        {reviewCount !== undefined && (
+        {label ? <span className="rating-label">{label}</span> : null}
+        {reviewCount !== undefined ? (
           <span className="review-count">({formatCount(reviewCount)})</span>
-        )}
+        ) : null}
       </div>
     );
   };
@@ -222,8 +222,8 @@ const Games: preact.FunctionComponent = () => {
       <div className="game-info">
         <h3 className="game-title">{game.name.length > 25 ? game.name.substring(0, 25) + '...' : game.name}</h3>
         <div className="game-meta">
-          {game.released && <span className="game-year">{new Date(game.released).getFullYear()}</span>}
-          {game.genres && game.genres.length > 0 && (
+          {game.released ? <span className="game-year">{new Date(game.released).getFullYear()}</span> : null}
+          {game.genres && game.genres.length > 0 ? (
             <div className="game-genres">
               {(() => {
                 let genresArray: string[] = [];
@@ -245,7 +245,7 @@ const Games: preact.FunctionComponent = () => {
                 ));
               })()}
             </div>
-          )}
+          ) : null}
         </div>
         <div className="ratings-container">
           {game.metacritic && (() => {
@@ -256,7 +256,9 @@ const Games: preact.FunctionComponent = () => {
             const count = steamReviewCount !== undefined ? Number(steamReviewCount) : undefined;
             return renderRating(game.metacritic, 'steam', isNaN(count as number) ? undefined : count);
           })()}
-          {game.platformRating > 0 && renderRating(game.platformRating * 20, 'platform', game.reviewCount)}
+          {game.platformRating > 0 ?
+            renderRating(game.platformRating * 20, 'platform', game.reviewCount)
+          : null}
         </div>
         <div className="game-actions">
           <a href={`/game/${game.id}`} className="btn-primary">View Details</a>
@@ -268,11 +270,11 @@ const Games: preact.FunctionComponent = () => {
 
   return (
     <div className="games">
-      {notice && (
+      {notice ? (
         <div className={`notice-banner ${notice.type}`} role="status" onClick={() => setNotice(null)}>
           {notice.text}
         </div>
-      )}
+      ) : null}
       <div className="games-header">
         <form onSubmit={handleSearch} className="search-form">
           <input

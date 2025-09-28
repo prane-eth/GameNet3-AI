@@ -5,16 +5,18 @@ const path = require('path');
 const download = require('download');
 
 // Create OpenAI client; tolerate missing API key in tests by using a dummy key
-const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL
+});
 
 // Azure OpenAI client for image generation
 const azureEndpoint = process.env.AZURE_OPENAI_ENDPOINT;
 const azureDeployment = process.env.AZURE_OPENAI_DEPLOYMENT_NAME;
-const azureApiVersion = process.env.OPENAI_API_VERSION;
 const azureOpenAI = new OpenAI.AzureOpenAI({
   apiKey: process.env.AZURE_OPENAI_API_KEY,
   baseURL: `${azureEndpoint}openai/deployments/${azureDeployment}`,
-  apiVersion: azureApiVersion,
+  apiVersion: process.env.OPENAI_API_VERSION,
 });
 
 async function moderateReview(text) {
@@ -237,22 +239,26 @@ async function chatbotReply(message, history = []) {
       // temperature: 0.7,
     });
 
+    console.log('OpenAI response:', JSON.stringify(response, null, 2));
     const chatbotReply = response.choices[0].message.content.trim();
-    if (chatbotReply.length === 0) {
-      // Attempt again
-      const newResponse = await openai.chat.completions.create({
-        model: process.env.OPENAI_MODEL,
-        messages: messages,
-        max_completion_tokens: 500,
-      });
-      const newReply = newResponse.choices[0].message.content.trim();
-      if (newReply.length === 0) {
-        throw new Error('Empty reply from AI service');
-      }
-      return newReply;
+    console.log('Chatbot reply:', chatbotReply);
+    if (chatbotReply?.length) {
+      return chatbotReply;
     }
+    // Attempt again
+    const newResponse = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL,
+      messages: messages,
+      max_completion_tokens: 500,
+    });
+    const newReply = newResponse.choices[0].message.content.trim();
+    if (newReply.length === 0) {
+      throw new Error('Empty reply from AI service');
+    }
+    return newReply;
   } catch (error) {
     console.error('Error getting chatbot reply:', error.message);
+    console.error('Full error:', error);
     // Fallback response
     return aiServiceApology.replace('<message>', message);
   }

@@ -1,8 +1,8 @@
 require('dotenv').config();
-const Fastify = require('fastify');
+const fastify = require('fastify');
 
 function build(opts = {}) {
-  const app = Fastify({ logger: true });
+  const app = fastify({ logger: true });
   const db = opts.db;
 
   // make db available to routes via decorate
@@ -16,15 +16,14 @@ function build(opts = {}) {
   });
   app.register(require('./plugins/jwt'));
   app.register(require('./routes/health'));
-  app.register(require('./routes/auth'), { prefix: '/auth' });
   app.register(require('./routes/games'));
   app.register(require('./routes/reviews'));
   app.register(require('./routes/chat'));
   app.register(require('./routes/web3'), { prefix: '/web3' });
 
   app.start = async function() {
-    const port = process.env.PORT || 3000;
-    await app.listen({ port, host: '0.0.0.0' });
+    const port = process.env.PORT;
+    app.listen({ port, host: '0.0.0.0' });
     app.log.info(`Server listening on ${port}`);
   };
 

@@ -1,4 +1,4 @@
-// Auto-participates by voting for NFT minting using multiple accounts
+// Make users participate in NFT minting using multiple private keys from env
 
 require('dotenv').config();
 const { ethers } = require('ethers');
@@ -39,7 +39,7 @@ async function main() {
 
     // Collect private keys from env
     const keys = [];
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 9; i++) {  // Iterate limited rows
         const key = process.env[`USER_PRIVATE_KEY_${i}`];
         if (key && key.length > 0) keys.push({ key, id: i });
     }
@@ -51,7 +51,6 @@ async function main() {
 
     console.log(`Found ${keys.length} private keys, will call participateInMint for each`);
 
-    // Iterate sequentially to avoid nonce collisions and to make logs clear
     for (const entry of keys) {
         const pk = entry.key.trim();
         try {

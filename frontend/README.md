@@ -1,4 +1,4 @@
-# GameNet3 Frontend
+# GameNet3-AI Frontend
 
 A decentralized social platform for gaming users built with Vite + Preact.
 

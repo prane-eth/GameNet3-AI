@@ -3,10 +3,10 @@ const { chatbotReply } = require('../utils/ai');
 module.exports = async function (fastify, opts) {
   fastify.post('/chat', async (req, reply) => {
     const { message, history, userId, gameContext } = req.body || {};
+    console.log('Chat request:', { message, userId, gameContext });
 
-    if (!message) {
+    if (!message)
       return reply.status(400).send({ error: 'message is required' });
-    }
 
     try {
       // Prepare conversation history with proper format
@@ -29,7 +29,8 @@ module.exports = async function (fastify, opts) {
           content: contextMessage
         });
       }
-
+      console.log('Conversation history:', conversationHistory);
+      console.log('User message:', message);
       const aiResponse = await chatbotReply(message, conversationHistory);
 
       return {

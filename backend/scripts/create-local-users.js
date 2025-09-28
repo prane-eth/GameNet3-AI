@@ -38,8 +38,8 @@ async function createLocalUsers({ dbPath } = {}) {
   }
 
   const created = [];
-  const insert = db._raw.prepare(`INSERT INTO users (id,nickname,tokens,activity,address)
-                                              VALUES(@id, @nickname, @tokens, @activity, @address)`);
+  const insert = db._raw.prepare(`INSERT INTO users (id,nickname,activity,address)
+                                             VALUES (@id,@nickname,@activity,@address)`);
 
   for (let i = 0; i < ACCOUNTS.length; i++) {
     const address = ACCOUNTS[i];
@@ -48,7 +48,6 @@ async function createLocalUsers({ dbPath } = {}) {
     const row = {
       id,
       nickname,
-      tokens: 0,
       activity: 0,
       address: address.trim(),
     };

@@ -1,3 +1,4 @@
+<!-- using from frontend directory, not ./assets/ -->
 <img src="frontend/public/logo.png" alt="Project logo" height="96" align="left"/>
 
 Blockchain-based decentralized social platform for gamers that includes AI-generated images for games and minting NFTs for active users.
@@ -13,9 +14,12 @@ Blockchain-based decentralized social platform for gamers that includes AI-gener
 
 [![Demo Video](assets/demo.gif)](assets/demo.mp4)
 
+Chatbot demo:
+![Chatbot Demo](assets/Chatbot_demo.png)
+
 ## About
 
-GameNet3-AI is a full-stack decentralized social platform built for gaming communities. It combines blockchain smart contracts, web3 integrations, a Node.js backend, and a React frontend with AI-powered features to provide secure, equitable, and accessible social experiences. The platform prioritizes user sovereignty, content provenance, and transparent moderation tools.
+GameNet3-AI is a full-stack AI-powered decentralized social platform built for gaming communities. It combines blockchain smart contracts, web3 integrations, a Node.js backend, and a React frontend with AI-powered features to provide secure, equitable, and accessible social experiences. The platform prioritizes user sovereignty, content provenance, and transparent moderation tools.
 
 ## Highlights
 
@@ -50,11 +54,14 @@ GameNet3-AI is a full-stack decentralized social platform built for gaming commu
 - [`frontend/`](./frontend/) — React app, components, pages
 - [`local-ipfs/`](./local-ipfs/) — local IPFS node and data
 
+
 ## Quick start
 
 Prerequisites: Node.js (>=16), npm, and MetaMask (for frontend web3 interactions).
 
-1) Start a local blockchain (Hardhat node)
+1) Setup environment variables using `.env.example` as a reference. Copy it to each folder.
+
+2) Start a local blockchain (Hardhat node)
 
 ```bash
 # in /blockchain
@@ -62,14 +69,14 @@ npm install
 npx hardhat node
 ```
 
-2) Deploy contracts (in new terminal)
+3) Deploy contracts (in new terminal)
 
 ```bash
 # in /blockchain
 node scripts/deploy.js
 ```
 
-3) Backend
+4) Backend
 
 ```bash
 # in /backend
@@ -81,7 +88,7 @@ node scripts/fetch-games.js
 npm start
 ```
 
-4) Frontend
+5) Frontend
 
 ```bash
 # in /frontend
@@ -91,15 +98,13 @@ npm run dev
 
 Open `http://localhost:3000` (or the port shown by Vite) and connect a Web3 wallet.
 
+
 ## Development notes
 
 - Tests: see `blockchain/test` and `backend/test` for Mocha/Jest tests. Run them with `npm test` in each folder.
 - Scripts: `backend/scripts` contains helpers for seeding, cleaning, and AI testing.
 - AI: backend AI utilities are in `backend/src/utils/ai.js` and `backend/src/utils/ipfs_upload.js`.
 
-## Contributing
-
-We welcome contributions. Please open issues.
 
 ## Using VS Code
 

@@ -14,13 +14,15 @@ function init(dbPath) {
   }
   db = new Database(dbPath);
 
+  // Enable Write-Ahead Logging (WAL) for better concurrency and performance.
+  // WAL allows concurrent readers while a writer is active and often improves write throughput.
+  // Tradeoffs: single writer at a time still applies, WAL creates a separate -wal file
   db.pragma('journal_mode = WAL');
 
   db.prepare(`CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     address TEXT UNIQUE,
     nickname TEXT UNIQUE,
-    tokens INTEGER DEFAULT 0,
     activity INTEGER DEFAULT 0
   )`).run();
 
@@ -50,23 +52,9 @@ function init(dbPath) {
     updatedAt INTEGER
   )`).run();
 
-  // Mints table to persist minted NFT data
-  db.prepare(`CREATE TABLE IF NOT EXISTS mints (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    gameId TEXT,
-    mintId TEXT,
-    gameName TEXT,
-    topUsers TEXT,
-    prompts TEXT,
-    imageUrls TEXT,
-    activeUsersCount INTEGER,
-    mintResult TEXT,
-    createdAt INTEGER DEFAULT (strftime('%s','now'))
-  )`).run();
-
   // prepared statements
-  const createUserStmt = db.prepare(`INSERT INTO users (id,nickname,tokens,activity,address)
-                                                VALUES (@id,@nickname,@tokens,@activity,@address)`);
+  const createUserStmt = db.prepare(`INSERT INTO users (id,nickname,activity,address)
+                                                VALUES (@id,@nickname,@activity,@address)`);
   const getUserByAddressStmt = db.prepare(`SELECT * FROM users WHERE address = ?`);
   const getUserByNicknameStmt = db.prepare(`SELECT * FROM users WHERE nickname = ?`);
   const getUserByIdStmt = db.prepare(`SELECT * FROM users WHERE id = ?`);
@@ -104,12 +92,6 @@ function init(dbPath) {
   const getGamesCountStmt = db.prepare(`SELECT COUNT(*) as count FROM games`);
   const getActiveUsersStmt = db.prepare(`SELECT * FROM users WHERE activity > 0 ORDER BY activity DESC LIMIT ?`);
 
-  // Mints prepared statements
-  const insertMintStmt = db.prepare(`INSERT INTO mints (gameId,mintId,gameName,topUsers,prompts,imageUrls,
-                                      activeUsersCount,mintResult) VALUES (@gameId,@mintId,@gameName,
-                                      @topUsers,@prompts,@imageUrls,@activeUsersCount,@mintResult)`);
-  const getMintsByGameStmt = db.prepare(`SELECT * FROM mints WHERE gameId = ? ORDER BY createdAt ASC`);
-
   return {
     createUser: (user) => createUserStmt.run(user),
     getUserByAddress: (address) => getUserByAddressStmt.get(address),
@@ -128,30 +110,6 @@ function init(dbPath) {
     getPopularGames: (limit = 20) => getPopularGamesStmt.all(limit),
     getGamesCount: () => getGamesCountStmt.get().count,
     getActiveUsers: (limit = 10) => getActiveUsersStmt.all(limit),
-    // Mints methods
-    addMint: (mint) => {
-      const row = insertMintStmt.run({
-        gameId: mint.gameId,
-        mintId: mint.mintId,
-        gameName: mint.gameName,
-        topUsers: JSON.stringify(mint.topUsers || []),
-        prompts: JSON.stringify(mint.prompts || []),
-        imageUrls: JSON.stringify(mint.imageUrls || []),
-        activeUsersCount: mint.activeUsersCount || 0,
-        mintResult: JSON.stringify(mint.mintResult || {})
-      });
-      return row;
-    },
-    getMintsByGame: (gameId) => {
-      const rows = getMintsByGameStmt.all(gameId);
-      return rows.map(r => ({
-        ...r,
-        topUsers: r.topUsers ? JSON.parse(r.topUsers) : [],
-        prompts: r.prompts ? JSON.parse(r.prompts) : [],
-        imageUrls: r.imageUrls ? JSON.parse(r.imageUrls) : [],
-        mintResult: r.mintResult ? JSON.parse(r.mintResult) : {}
-      }));
-    },
     _raw: db
   };
 }

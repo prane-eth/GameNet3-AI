@@ -1,3 +1,4 @@
+// Common code to rate a game, for both Game List and Game Details pages
 import axios from 'axios';
 
 interface SubmitOptions {

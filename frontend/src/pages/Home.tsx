@@ -9,21 +9,16 @@ const Home: preact.FunctionComponent = () => {
 
   return (
     <div className="home">
-      <section className="hero">
+      <section className="main-section">
         <h1>Welcome to GameNet3</h1>
         <p>The decentralized social platform for gamers</p>
-        <div className="hero-actions">
+        <div className="main-section-actions">
           <a href="/games" className="btn-primary">Browse Games</a>
           {!address ? (
             <button className="btn-secondary" onClick={handleConnectWallet}>
               Connect Wallet
             </button>
-          ) : (
-            <div className="connected-status">
-              {/* <span>✅ Wallet Connected</span> */}
-              {/* <a href="/profile" className="btn-secondary">View Profile</a> */}
-            </div>
-          )}
+          ) : null}
         </div>
       </section>
 

@@ -111,7 +111,7 @@ const Chatbot: preact.FunctionComponent = () => {
       {isOpen && (
         <div className="chatbot-window">
           <div className="chatbot-header">
-            <h3>GameNet3 Assistant</h3>
+            <h3>GameNet3-AI Assistant</h3>
             <span>Your AI gaming companion</span>
             <button className="new-chat-btn" onClick={clearChat} title="Start new chat">
               📄

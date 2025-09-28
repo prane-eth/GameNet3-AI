@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
 import { ethers } from 'ethers';
+import { useState, useEffect } from 'preact/hooks';
+
+import { fetchMintsFromChain } from '../utils/web3_utils';
+import useSubmitRating from '../hooks/useSubmitRating';
 import { useWeb3 } from '../hooks/Web3Context';
 import RatingModal from '../components/RatingModal';
-import useSubmitRating from '../hooks/useSubmitRating';
-import { fetchMintsFromChain } from '../utils/web3_utils';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -174,6 +175,8 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
   const [displayImageItem, setDisplayImageItem] = useState<any | null>(null);
   const openLightbox = (src: string, caption: string | undefined, mintId: any,
                         mintImageIndex: number) => {
+    if (!src)
+      return;
     setDisplayImageItem({ src, caption, mintId, mintImageIndex });
   };
   const closeLightbox = () => setDisplayImageItem(null);
@@ -386,10 +389,10 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
       <div className={`rating ${colorClass}`}>
         <span className="rating-icon">{icon}</span>
         <span className="rating-value">{displayRating}</span>
-        {label && <span className="rating-label">{label}</span>}
-        {reviewCount !== undefined && (
+        {label ? <span className="rating-label">{label}</span> : null}
+        {reviewCount !== undefined ? (
           <span className="review-count">({formatCount(reviewCount)})</span>
-        )}
+        ) : null}
       </div>
     );
   };
@@ -443,8 +446,10 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
         <div className="game-info">
           <h1 className="game-title">{game.name}</h1>
           <div className="game-meta">
-            {game.released && <span className="game-year">{new Date(game.released).getFullYear()}</span>}
-            {game.genres && (
+            {game.released ?
+              <span className="game-year">{new Date(game.released).getFullYear()}</span>
+            : null}
+            {game.genres ? (
               <div className="game-genres">
                 {(() => {
                   let genresArray: string[] = [];
@@ -465,16 +470,16 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
                   ));
                 })()}
               </div>
-            )}
+            ) : null}
           </div>
           <div className="ratings-container">
-            {game.metacritic && (() => {
+            {game.metacritic ? (() => {
               const g: any = game as any;
               const steamReviewCount = g.ratings_count || g.rating_count || g.reviews_count || g.ratings || g.reviews || g.recommendations_count || undefined;
               const count = steamReviewCount !== undefined ? Number(steamReviewCount) : undefined;
               return renderRating(game.metacritic, 'steam', isNaN(count as number) ? undefined : count);
-            })()}
-            {platformRating > 0 && renderRating(platformRating, 'platform', reviews.length)}
+            })() : null}
+            {platformRating > 0 ? renderRating(platformRating, 'platform', reviews.length) : null}
           </div>
           <div className="game-description">
             <div className="description-content">
@@ -486,14 +491,14 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
                 )
               ) : 'No description available.'}
             </div>
-            {game.description && game.description.replace(/<[^>]*>/g, '').length > 300 && (
+            {game.description && game.description.replace(/<[^>]*>/g, '').length > 300 ? (
               <button
                 className="description-toggle"
                 onClick={() => setDescriptionExpanded(!descriptionExpanded)}
               >
                 {descriptionExpanded ? 'Show Less' : 'Show More'}
               </button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
@@ -538,7 +543,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
                 <span className="participated-badge">✓ Already participated</span>
               )}
 
-              {nftData.canMint && (
+              {nftData.canMint ? (
                 <div className="mint-ready-notice">
                   <button
                     className="btn-primary"
@@ -549,7 +554,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
                     {isMinting ? 'Minting...' : 'Mint NFTs for Top Users'}
                   </button>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         ) : (
@@ -567,7 +572,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
           </div>
         )}
         {/* Minted NFT details (if any) - render all mints */}
-        {mintedList && mintedList.length > 0 && (
+        {mintedList && mintedList.length > 0 ? (
           (() => {
             // Flatten all images across mints into a single gallery array preserving mint context
             const flat: Array<{ src: string; caption: string; mintId: any; mintImageIndex: number }> = [];
@@ -603,7 +608,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
               </div>
             );
           })()
-        )}
+        ) : null}
       </div>
 
       {/* Reviews Section */}
@@ -671,7 +676,7 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
       />
 
       {/* Mint Modal */}
-      {mintModal && (
+      {mintModal ? (
         <div className="modal-overlay" onClick={() => setMintModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
@@ -680,10 +685,10 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Lightbox modal for previewing images (shows mint metadata) */}
-      {displayImageItem && (
+      {displayImageItem ? (
         <div className="lightbox-overlay" onClick={closeLightbox}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <button className="lightbox-close" onClick={closeLightbox}>×</button>
@@ -693,13 +698,15 @@ const GameDetails: preact.FunctionComponent<GameDetailsProps> = ({ gameId }) => 
             ) : (
               <div>No image</div>
             )}
-            {displayImageItem.caption && <div className="lightbox-caption">{displayImageItem.caption}</div>}
+            {displayImageItem.caption ?
+              <div className="lightbox-caption">{displayImageItem.caption}</div>
+            : null}
             <div className="lightbox-meta" style={{ color: '#ddd', marginTop: 8, textAlign: 'center' }}>
               <div>Mint ID - Image: {displayImageItem.mintId} - {displayImageItem.mintImageIndex + 1}</div>
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

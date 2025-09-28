@@ -280,7 +280,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   width: 100%;
 }
 
-.hero {
+.main-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 4rem 2rem;
@@ -288,7 +288,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   margin-bottom: 3rem;
 }
 
-.hero h1 {
+.main-section h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
@@ -296,7 +296,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.hero p {
+.main-section p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   opacity: 0.9;
@@ -304,7 +304,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   line-height: 1.7;
 }
 
-.hero-actions {
+.main-section-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -928,7 +928,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .message-content {
   max-width: 80%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 2rem;
   border-radius: 18px;
   word-wrap: break-word;
 }
@@ -1167,11 +1167,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     padding: 1rem;
   }
 
-  .hero {
+  .main-section {
     padding: 2rem 1rem;
   }
 
-  .hero h1 {
+  .main-section h1 {
     font-size: 2rem;
   }
 
@@ -1926,7 +1926,7 @@ textarea {
   border-color: #e0e0e0;
 }
 
-.dark .hero {
+.dark .main-section {
   background: linear-gradient(135deg, #333 0%, #555 100%);
 }
 

@@ -33,7 +33,7 @@ const Header: preact.FunctionComponent<HeaderProps> = ({ toggleDarkMode, isDarkM
       <div className="header-content">
         <div className="logo">
           <a href="/">
-            <img src="/logo.png" alt="GameNet3 Logo" className="site-logo" />
+            <img src="/logo.png" alt="GameNet3-AI Logo" className="site-logo" />
           </a>
         </div>
         <nav className="nav">
